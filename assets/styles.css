@@ -1,0 +1,117 @@
+
+@font-face {
+    font-family: 'Lato-Reg';
+    src: url('Lato-Reg.otf');
+}
+
+@font-face {
+    font-family: 'Lato-Bold';
+    src: url('Lato-Bol.otf');
+}
+
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url('Roboto-Regular.ttf');
+}
+
+.logofixed {
+    position: absolute;
+    top: 160px;
+    left: 80px;
+    width: 120px;
+}
+
+.labelfixed {
+    font-family: 'Lato-Bold';
+    font-size: xxx-large;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+
+    position: absolute;
+    top: 160px;
+    left: 260px;
+    width: 1200px;
+    /*border: 3px solid #73AD21;*/
+}
+
+.landcanvas {
+    height : 800px;
+    display : flex;
+    column-gap : 50px;
+    justify-content : center;
+    align-items : center;
+
+    background: rgb(2,0,36);
+    background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(26,147,143,0.5130427170868348) 9%, rgba(252,255,255,1) 100%);
+
+}
+
+.card-icon{
+    width : 18rem ;
+    align-items : center;
+    border-color : transparent
+}
+
+.card-icon:hover{
+    box-shadow: 5px 10px 8px #888888;
+}
+
+.headerband {
+    /*-fx-font-family: "Lato-Bold";*/
+    font-family: 'Lato-Reg';
+    font-size: 18px;
+    background-color: black;
+    color: white;
+    height : 40px;
+
+}
+
+.navband {
+    /*-fx-font-family: "Lato-Bold";*/
+    font-family: 'Lato-Reg';
+    font-size: 18px;
+    background-color: black;
+    color: white;
+    height : 40px;
+
+    position:fixed;
+    bottom:0;
+    width:100%;
+
+}
+
+.hb-button{
+    width : 40px;
+    display : flex;
+    justify-content : center;
+    align-items: center;
+    font-size: 18px;
+    margin-top: 10px;
+    color : darkgrey;
+}
+
+.hb-button:hover{
+    margin-top: 8px;
+    font-size: 24px;
+    cursor: pointer;
+    color : white;
+
+}
+
+.element {
+    position:fixed;
+    bottom:0;
+    width:100%;
+}
+
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+
+
