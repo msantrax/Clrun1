@@ -53,24 +53,25 @@ class AcvtLand():
         return html.Div([
 
             dash.html.Img (src= self.app.get_asset_url('logo-bsw.png'), className="logofixed"),
-            dash.html.H1 ('BSW Service -- Troubleshoot Tools for CCD Instruments', className="labelfixed"),
+            dash.html.H1 ('BSW Service Tools - Troubleshoot applications for CCD Instruments', className="labelfixed"),
+            # dash.html.H1 ('Troubleshoot applications for CCD Instruments', className="labelfixed"),
 
             dbc.Container([
                     dbc.Card([
                             dbc.CardImg(src= self.app.get_asset_url('cement2.jpg'), top=True),
-                            dbc.CardBody([dbc.Button("Scan Research", color="primary", href="/page-2")]),
+                            dbc.CardBody([dbc.Button("Scan Research", color="primary", href="/scanview")]),
                         ],
                         className="card-icon",),
 
                     dbc.Card([
                         dbc.CardImg(src= self.app.get_asset_url('petrochemical_plant.jpg'), top=True),
-                        dbc.CardBody([dbc.Button("CCD Project viewer", color="primary", href="/page-1")]),
+                        dbc.CardBody([dbc.Button("CCD Project Editor", color="primary", href="/ccdeditor")]),
                     ],
                         className="card-icon",),
 
                     dbc.Card([
                         dbc.CardImg(src= self.app.get_asset_url('research-icon11.jpg'), top=True),
-                        dbc.CardBody([dbc.Button("Global Cache inspector", color="primary", href="/")]),
+                        dbc.CardBody([dbc.Button("Global Cache Inspector", color="primary", href="/")]),
                     ],
                         className="card-icon",),
                 ],

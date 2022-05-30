@@ -44,9 +44,9 @@ class HeaderBand():
                     # dbc.Col(html.I(id="user", className="fas fa-user hb-button"), width="auto"),
                     dbc.Col(dbc.DropdownMenu(
                         children=[
-                            dbc.DropdownMenuItem("Root", href='/'),
-                            dbc.DropdownMenuItem("Page 1", href='/page-1'),
-                            dbc.DropdownMenuItem("Page 2", href='/page-2'),
+                            dbc.DropdownMenuItem("CCD Tools V2", href='/'),
+                            dbc.DropdownMenuItem("Scan Research", href='/scanview'),
+                            dbc.DropdownMenuItem("Project Editor", href='/ccdeditor'),
                         ],
                         nav=True,
                         in_navbar=True,

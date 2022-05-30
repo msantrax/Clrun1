@@ -1,4 +1,5 @@
 import logging
+import os
 
 import dash
 from dash import dcc
@@ -10,7 +11,8 @@ from flask import Flask
 from DashUtils import DashUtils
 from HeaderBand import HeaderBand
 from NavBand import NavBand
-from AcvtScanner import AcvtScanner
+
+from AcvtScan import AcvtScan
 from AcvtEdit import AcvtEdit
 from AcvtLand import AcvtLand
 
@@ -53,14 +55,19 @@ class DashServer():
         # self.runsm :RunSM
 
         self.server_config = {
-            'scanpath' : '/Bascon/Bruker/Sandbox/Reverse1/',
-            'lastloaded' : ['RE12_1000_221:0:6666', 'RE12_1075_221:0:6666', 'RE12_1075_221:0:10000'],
-
+            # 'scanpath' : '/Bascon/Bruker/Sandbox/Reverse1/',
+            # 'lastloaded' : ['RE12_1000_221:0:6666', 'RE12_1075_221:0:6666', 'RE12_1075_221:0:10000'],
+            'scanpath' : '/Bascon/Bruker/Q2-A/Sandbox_a/',
+            'lastloaded' : ['RC 11_01000_20140211_bsw:0:29997',
+                            'RC 11_01000_20190903_good:0:29997',
+                            'RC 11_01000_20211223_bad:0:29997',
+                            ],
+            # 'lastloaded' : ['RE12_1000_221:0:6666'],
         }
 
 
-        self.server = Flask(__name__)
-        self.app = dash.Dash(__name__, server = self.server
+        # self.server = server # Flask(__name__)
+        self.app = dash.Dash(__name__  #,  server = self.server
                              ,external_stylesheets = [dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME]
                              # ,external_scripts = external_scripts
                              # ,routes_pathname_prefix = '/dash/'
@@ -69,8 +76,8 @@ class DashServer():
 
         self.headerband = HeaderBand(self.app)
         self.navband = NavBand(self.app)
-        self.acvtscanner = AcvtScanner(self.app)
         self.acvtedit = AcvtEdit(app=self.app, config=self.server_config)
+        self.acvtscan = AcvtScan(app=self.app, config=self.server_config)
         self.acvtland = AcvtLand(self.app)
 
         self.url_bar_and_content_div = html.Div([
@@ -91,8 +98,8 @@ class DashServer():
         # "complete" layout
         self.app.validation_layout = html.Div([
             self.url_bar_and_content_div,
-            self.acvtscanner.getLayout(),
             self.acvtedit.getLayout(),
+            self.acvtscan.getLayout(),
             self.acvtland.getLayout(),
         ])
 
@@ -113,9 +120,9 @@ class DashServer():
         def update_page(pathname):
             if DashServer.currentpage != pathname :
                 DashServer.currentpage = pathname
-                if pathname == "/page-1":
-                    DashServer.currentlayout = self.acvtscanner.getLayout()
-                elif pathname == "/page-2":
+                if pathname == "/scanview":
+                    DashServer.currentlayout = self.acvtscan.getLayout()
+                elif pathname == "/ccdeditor":
                     DashServer.currentlayout = self.acvtedit.getLayout()
                 else:
                     DashServer.currentlayout = self.acvtland.getLayout()
@@ -139,6 +146,7 @@ class DashServer():
                                 # Input('dummy-nav', 'children'),
                             ])
         def display_page(n_intervals):
+            # print ('Timer = {}'.format(n_intervals))
             updates = [dash.no_update, dash.no_update]
             if DashServer.refreshpage :
                 logger.info('Loading page on {}'.format(DashServer.currentpage))
@@ -153,15 +161,15 @@ class DashServer():
             return updates
 
 
-        @self.server.route('/user/<username>')
-        def	show_user_profile(username):
-            # self.app.update_output_div(username)
-            # if username == 'opus':
-            #     return self.acvtscanner.getLayout()
-            # elif username == '2':
-            #     return self.acvtedit.getLayout()
-            # else :
-                return	'Now adjusting dash to	%s'	%	username
+        # @self.server.route('/user/<username>')
+        # def	show_user_profile(username):
+        #     # self.app.update_output_div(username)
+        #     # if username == 'opus':
+        #     #     return self.acvtedit.getLayout()
+        #     # elif username == '2':
+        #     #     return self.acvtscan.getLayout()
+        #     # else :
+        #         return	'Now adjusting dash to	%s'	%	username
 
         # self.configLogger(qlog)
 
@@ -179,9 +187,17 @@ class DashServer():
 
     #========================================== SERVICE POINTS ========================================================
     def rundash(self):
-        self.app.run_server(debug=True, threaded=True)
+        server_port = os.environ.get('PORT', '8080')
+        self.app.run_server(port=server_port, host='0.0.0.0', debug=True, threaded=True)
+        return self.app
+
+        # self.app.run_server(port=server_port, debug=True) #, threaded=True)
+
 
     def getServer(self):
+        server_port = os.environ.get('PORT', '8000')
+        self.app.run_server()
+        # self.app.run_server(port=server_port, host='0.0.0.0', debug=True, threaded=True)
         return self.app.server
 
     # def setRunSM(self, rsm):
@@ -209,17 +225,6 @@ class DashServer():
     # DASH:DASHCONFIG
     def sm_config(self, payload):
         logger.debug("Configuring Dash Server")
-
-
-
-
-
-
-
-
-
-
-
 
 
     # Tie a callback to the interval

@@ -9,20 +9,34 @@ logger = logging.getLogger(__name__)
 
 class CCDScan():
 
-    def __init__(self, scanfile, config, qlog = None):
+    def __init__(self, scanfile, payload, config, qlog = None):
 
         self.configLogger(qlog)
 
         self.cursor = 0
         self.df = None
 
-        self.scanfile = scanfile
-        self.scanpath = config['scanpath'] + self.scanfile
 
 
-        with open(self.scanpath, 'r+b') as f:
-            s = f.read()
+        if payload is None :
+            self.scanpath = config['scanpath'] + scanfile
+            with open(self.scanpath, 'r+b') as f:
+                s = f.read()
+                self.scanfile = scanfile
+                print("Processing File [{}] --> loaded {} bytes".format(scanfile, len(s)))
+
+        elif scanfile is not None:
+            s = payload
+            self.scanfile = scanfile
+            self.scanpath = config['scanpath'] + self.scanfile
+
             print("Processing File [{}] --> loaded {} bytes".format(scanfile, len(s)))
+
+        else:
+            print ("Not suitable data to parse, aborting ..")
+            return
+
+
 
         self.entrypoint = s.find(b'BQ.CCD.Data.Scan2D[]')
 
